@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pemulihan Akun — Simulasi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:radial-gradient(circle at 20% 10%,#3b1115 0,transparent 34%),radial-gradient(circle at 90% 90%,#310b0e 0,transparent 38%),#090909;
+  color:#fff;display:flex;justify-content:center;align-items:center;padding:18px;
+}
+.app{width:100%;max-width:430px;min-height:720px;border-radius:34px;overflow:hidden;background:#111;border:1px solid #292929;box-shadow:0 28px 80px #000;position:relative}
+.header{padding:27px 24px 23px;background:linear-gradient(145deg,#df1820,#900006);border-radius:0 0 28px 28px}
+.brand{display:flex;align-items:center;gap:13px}.brand-icon{width:46px;height:46px;border-radius:15px;background:#ffffff22;border:1px solid #ffffff33;display:grid;place-items:center;font-size:23px}
+.brand h1{font-size:19px}.brand p{font-size:12px;opacity:.78;margin-top:3px}
+.page{padding:25px 22px}
+.card{background:#191919;border:1px solid #292929;border-radius:24px;padding:23px;box-shadow:0 15px 35px #0005}
+.lock{width:64px;height:64px;border-radius:20px;margin:0 auto 17px;display:grid;place-items:center;font-size:28px;background:#e51b2318;border:1px solid #e51b2340}
+h2{text-align:center;font-size:21px}.desc{text-align:center;color:#888;font-size:13px;line-height:1.6;margin:8px 0 22px}
+input{width:100%;height:53px;border:1px solid #333;border-radius:16px;background:#0e0e0e;color:#fff;padding:0 15px;outline:none;font-size:14px}
+input:focus{border-color:#e51b23;box-shadow:0 0 0 3px #e51b2315}
+button{width:100%;height:53px;border:0;border-radius:16px;background:linear-gradient(135deg,#e51b23,#a60008);color:#fff;font-weight:700;font-size:14px;cursor:pointer;margin-top:12px}
+.error{display:none;color:#ff6469;text-align:center;font-size:12px;margin-top:11px}
+.notice{text-align:center;color:#666;background:#101010;border-radius:13px;padding:11px;margin-top:17px;font-size:10px;line-height:1.5}
+.main{display:none}.welcome{padding:24px 22px 14px}.welcome small{color:#777;font-size:12px}.welcome h2{text-align:left;font-size:23px;margin-top:5px}.welcome h2 span{color:#ed343b}
+.gmail-card{margin:0 18px 15px;padding:17px;border-radius:20px;background:#191919;border:1px solid #292929}
+.gmail-label{font-size:11px;color:#777;margin-bottom:7px}.gmail-value{font-family:monospace;font-size:13px;color:#eee;word-break:break-all}
+.terminal-card{margin:0 18px;background:#090909;border:1px solid #292929;border-radius:22px;overflow:hidden}
+.term-head{height:47px;padding:0 15px;display:flex;align-items:center;gap:7px;background:#151515;border-bottom:1px solid #272727}
+.dot{width:9px;height:9px;border-radius:50%;background:#e51b23}.term-title{margin-left:5px;color:#888;font:11px monospace}
+.terminal{height:320px;padding:16px;overflow:hidden;font:11px/1.75 "Courier New",monospace;color:#d2d2d2}
+.line{opacity:0;animation:in .2s forwards}.prompt{color:#e52a32}.success{color:#52d273}.warning{color:#ffc857}.dim{color:#707070}
+@keyframes in{to{opacity:1}}
+.cursor{display:inline-block;width:6px;height:12px;background:#e51b23;animation:blink .8s infinite;vertical-align:middle}@keyframes blink{50%{opacity:0}}
+.progress-card{margin:16px 18px;padding:18px;border-radius:21px;background:#181818;border:1px solid #292929}
+.top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:10px}#status{color:#999}#percent{color:#ef343b;font-weight:700}
+.progress{height:8px;background:#303030;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#a90008,#f12d34);transition:width .45s}
+.loader{display:flex;align-items:center;gap:9px;color:#777;font-size:10px;margin-top:12px}.spinner{width:13px;height:13px;border:2px solid #333;border-top-color:#e51b23;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.result{display:none;margin:16px 18px;padding:23px;border-radius:22px;background:#142217;border:1px solid #52d27333;text-align:center}.result-icon{width:60px;height:60px;margin:auto auto 13px;border-radius:50%;display:grid;place-items:center;background:#52d27318;color:#52d273;font-size:28px}.result h3{font-size:20px}.result p{font-size:12px;color:#888;margin-top:7px;line-height:1.5}
+.sim{text-align:center;color:#555;font-size:9px;letter-spacing:.6px;margin:16px 0 20px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header"><div class="brand"><div class="brand-icon">🔐</div><div><h1>Pemulihan Akun</h1><p>Secure Recovery System</p></div></div></header>
+
+<section class="page" id="securityPage">
+<div class="card">
+<div class="lock">🔑</div>
+<h2>Security Key</h2>
+<p class="desc">Masukkan security key untuk membuka sistem pemulihan akun.</p>
+<input id="key" type="password" placeholder="Masukkan security key" autocomplete="off">
+<button onclick="verifyKey()">Verifikasi Keamanan</button>
+<div class="error" id="keyError">Security key tidak valid.</div>
+<div class="notice">SIMULASI / DEMO — tidak terhubung ke Google dan tidak mengirim atau menyimpan kredensial.</div>
+</div>
+</section>
+
+<main class="main" id="mainPage">
+<div class="welcome"><small>Recovery Center</small><h2>Account <span>Recovery</span></h2></div>
+
+<div class="gmail-card" id="gmailCard">
+<div class="gmail-label">GMAIL AKUN SIMULASI</div>
+<div class="gmail-value" id="gmailPreview">-</div>
+</div>
+
+<div class="terminal-card">
+<div class="term-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="term-title">recovery-terminal</span></div>
+<div class="terminal" id="terminal"><span class="cursor"></span></div>
+</div>
+
+<div class="progress-card">
+<div class="top"><span id="status">Menunggu proses...</span><span id="percent">0%</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="loader" id="loader"><span class="spinner"></span><span id="loaderText">Initializing recovery engine...</span></div>
+</div>
+
+<div class="result" id="result"><div class="result-icon">✓</div><h3>Pemulihan Berhasil</h3><p>Simulasi proses pemulihan untuk alamat tersebut telah selesai.</p></div>
+<div class="sim">DEMO SIMULATION • NOT AN OFFICIAL GOOGLE SERVICE</div>
+</main>
+</div>
+
+<script>
+const KEY="bayvscodeid";
+const $=id=>document.getElementById(id);
+
+function verifyKey(){
+  if($("key").value===KEY){
+    $("keyError").style.display="none";
+    $("securityPage").style.display="none";
+    $("mainPage").style.display="block";
+    showGmailPrompt();
+  }else{
+    $("keyError").style.display="block";
+    $("key").value="";
+    $("key").focus();
+  }
+}
+$("key").addEventListener("keydown",e=>{if(e.key==="Enter")verifyKey()});
+
+function showGmailPrompt(){
+  $("gmailCard").innerHTML=`
+    <div class="gmail-label">MASUKKAN GMAIL UNTUK SIMULASI</div>
+    <input id="gmail" type="email" placeholder="contoh@gmail.com" autocomplete="off">
+    <button onclick="begin()">Mulai Pemulihan</button>
+  `;
+}
+
+function line(t,c=""){
+  const el=document.createElement("div");
+  el.className="line "+c;
+  el.textContent=t;
+  $("terminal").insertBefore(el,$("terminal").querySelector(".cursor"));
+  $("terminal").scrollTop=$("terminal").scrollHeight;
+}
+
+function begin(){
+  const g=$("gmail").value.trim();
+  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(g)){
+    $("gmail").focus(); $("gmail").style.borderColor="#e51b23"; return;
+  }
+  $("gmailCard").innerHTML=`<div class="gmail-label">GMAIL AKUN SIMULASI</div><div class="gmail-value">${escapeHtml(g)}</div>`;
+  start(g);
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function start(g){
+  const duration=180000;
+  const startTime=Date.now();
+  const messages=[
+    [`[SYSTEM] Recovery simulation started for ${g}`,""],
+    ["[AUTH] Initializing secure session...",""],
+    ["[AUTH] Session handshake completed.","success"],
+    ["[SCAN] Checking simulated recovery state...",""],
+    ["[SCAN] Recovery environment detected.","success"],
+    ["[SECURE] Establishing encrypted simulation channel...",""],
+    ["[SECURE] Secure channel established.","success"],
+    ["[MAIL] Preparing simulated Gmail message...",""],
+    ["[MAIL] Simulating mail delivery process...",""],
+    ["[MAIL] Simulated message queued.","success"],
+    ["[VERIFY] Validating recovery request...",""],
+    ["[VERIFY] Request validation in progress...","warning"],
+    ["[PROCESS] Processing recovery request...",""],
+    ["[PROCESS] Synchronizing recovery data...",""],
+    ["[PROCESS] Finalizing recovery process...",""]
+  ];
+  let mi=0;
+  const mt=setInterval(()=>{if(mi<messages.length){line(messages[mi][0],messages[mi][1]);mi++}},11000);
+  const pt=setInterval(()=>{
+    let p=Math.min(100,Math.floor((Date.now()-startTime)/duration*100));
+    $("bar").style.width=p+"%";$("percent").textContent=p+"%";
+    if(p<20){$("status").textContent="Menginisialisasi...";$("loaderText").textContent="Initializing recovery engine..."}
+    else if(p<45){$("status").textContent="Memeriksa sistem...";$("loaderText").textContent="Checking recovery state..."}
+    else if(p<70){$("status").textContent="Memproses pemulihan...";$("loaderText").textContent="Processing simulated request..."}
+    else if(p<90){$("status").textContent="Menyelesaikan proses...";$("loaderText").textContent="Synchronizing recovery data..."}
+    else if(p<100){$("status").textContent="Finalisasi...";$("loaderText").textContent="Finalizing..."}
+    else{
+      clearInterval(pt);clearInterval(mt);
+      line("[SUCCESS] Recovery simulation completed successfully.","success");
+      line("[SYSTEM] Simulation session closed safely.","dim");
+      $("loader").style.display="none";$("status").textContent="Selesai";
+      setTimeout(()=>$("result").style.display="block",700);
+    }
+  },500);
+}
+</script>
+</body>
+</html>
